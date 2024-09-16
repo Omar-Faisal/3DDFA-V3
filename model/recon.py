@@ -66,6 +66,20 @@ def bilinear_interpolate(img, x, y):
 
     return wa.unsqueeze(-1) * i_a + wb.unsqueeze(-1) * i_b + wc.unsqueeze(-1) * i_c + wd.unsqueeze(-1) * i_d
 
+class ModelArgs:
+    def __init__(self, device, extractTex, ldm68, ldm106, ldm106_2d, ldm134, seg_visible, seg, backbone, iscrop, detector):
+        self.device = device            # Use 'cuda' for GPU
+        self.extractTex = extractTex    # Disable texture extraction
+        self.ldm68 = ldm68              # Use 68 facial landmarks
+        self.ldm106 = ldm106            # Use 106 facial landmarks
+        self.ldm106_2d = ldm106_2d      # Use or disable 2D projections of 106 facial landmarks
+        self.ldm134 = ldm134            # Use 134 facial landmarks
+        self.seg_visible = seg_visible  # Enable visible part segmentation
+        self.seg = seg                  # Enable segmentation of eight facial parts
+        self.backbone = backbone        # Add the backbone attribute
+        self.iscrop = iscrop            # Add iscrop to control cropping
+        self.detector = detector        # Add detector to specify the face detector
+
 class face_model:
     def __init__(self, args):
 
@@ -547,4 +561,4 @@ class face_model:
             v_colors = get_colors_from_uv(res_colors.copy(), self.uv_coords_numpy.copy())
             result_dict['extractTex'] = v_colors
 
-        return result_dict
+        return result_dict , alpha_dict
